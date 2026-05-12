@@ -57,7 +57,7 @@ export default function ScreenshotsPage() {
   }, [appId])
 
   // Upload ZIP to Supabase Storage
-  async function handleExportZip(blob: Blob, preset: SizePreset): Promise<void> {
+  async function handleExportZip(blob: Blob, _preset?: SizePreset): Promise<void> {
     try {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()

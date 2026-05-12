@@ -13,6 +13,7 @@ import {
   Rocket,
   Search,
   SlidersHorizontal,
+  Link2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase'
@@ -28,6 +29,7 @@ const NAV_ITEMS = [
   { label: 'Pressure Test', href: '/dashboard/pressure', icon: FlaskConical },
   { label: 'Name Checker', href: '/dashboard/names', icon: Search },
   { label: 'Settings', href: '/dashboard/settings', icon: Settings },
+  { label: 'Integrations', href: '/dashboard/settings/integrations', icon: Link2, indent: true },
 ]
 
 const PLAN_STYLE: Record<string, string> = {
