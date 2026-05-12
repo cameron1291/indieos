@@ -99,7 +99,7 @@ export default function IconPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-6 p-6">
       <div>
-        <Link href="/dashboard/prep" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-900 mb-3">
+        <Link href="/dashboard/prep" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-white mb-3">
           <ArrowLeft className="h-3.5 w-3.5" /> Back to App Store Prep
         </Link>
         <h1 className="text-2xl font-bold">App icon generator</h1>

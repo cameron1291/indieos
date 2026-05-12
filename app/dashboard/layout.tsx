@@ -22,7 +22,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!profile.onboarding_completed) redirect('/onboarding')
 
   return (
-    <div className="flex h-screen overflow-hidden bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex h-screen overflow-hidden bg-zinc-900">
       {/* Desktop sidebar */}
       <div className="hidden lg:flex lg:shrink-0">
         <Sidebar profile={profile} apps={apps} />
@@ -31,7 +31,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <Topbar profile={profile} apps={apps} />
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto bg-zinc-900 text-zinc-100">
           {children}
         </main>
       </div>
