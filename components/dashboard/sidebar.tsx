@@ -12,6 +12,7 @@ import {
   LogOut,
   Rocket,
   Search,
+  SlidersHorizontal,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase'
@@ -21,6 +22,7 @@ import type { Profile, App } from '@/types/database'
 const NAV_ITEMS = [
   { label: 'Apps', href: '/dashboard/apps', icon: LayoutGrid },
   { label: 'Growth Engine', href: '/dashboard/growth', icon: TrendingUp },
+  { label: 'Crawler Setup', href: '/dashboard/growth/setup', icon: SlidersHorizontal, indent: true },
   { label: 'App Store Prep', href: '/dashboard/prep', icon: PackageOpen },
   { label: 'Downloads', href: '/dashboard/downloads', icon: BarChart2 },
   { label: 'Pressure Test', href: '/dashboard/pressure', icon: FlaskConical },
@@ -68,20 +70,21 @@ export function Sidebar({ profile, apps, currentAppId }: SidebarProps) {
       <nav className="flex-1 overflow-y-auto py-4">
         <p className="mb-2 px-5 text-[10px] font-semibold uppercase tracking-widest text-zinc-600">Menu</p>
         <ul className="space-y-0.5 px-3">
-          {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
-            const active = pathname === href || pathname.startsWith(`${href}/`)
+          {NAV_ITEMS.map(({ label, href, icon: Icon, indent }) => {
+            const active = pathname === href || (href !== '/dashboard/growth' && pathname.startsWith(`${href}/`)) || pathname === href
             return (
               <li key={href}>
                 <Link
                   href={href}
                   className={cn(
                     'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all',
+                    indent && 'ml-3 py-1.5 text-xs',
                     active
                       ? 'bg-violet-600 text-white shadow-md shadow-violet-900/40'
                       : 'text-zinc-400 hover:bg-zinc-800 hover:text-zinc-100'
                   )}
                 >
-                  <Icon className={cn('h-4 w-4 shrink-0', active ? 'text-white' : 'text-zinc-500')} />
+                  <Icon className={cn('h-4 w-4 shrink-0', indent && 'h-3.5 w-3.5', active ? 'text-white' : 'text-zinc-500')} />
                   {label}
                 </Link>
               </li>

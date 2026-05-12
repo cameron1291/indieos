@@ -7,21 +7,18 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const { app_name, description, slide_count } = await request.json()
+  const { appName, appDescription, slideCount } = await request.json()
 
-  const systemPrompt = `You are an expert app store marketing copywriter. You write punchy, benefit-led screenshot captions that convert browsers to downloaders. Headlines are bold and direct. Supporting text clarifies the benefit.`
+  const systemPrompt = `You are an expert app store marketing copywriter. Write punchy, benefit-led screenshot captions that convert browsers to downloaders. Headlines are bold and direct. Supporting text clarifies the benefit in one line.`
 
-  const userPrompt = `Write ${slide_count ?? 5} screenshot slide captions for this app:
-App: ${app_name}
-Description: ${description ?? ''}
+  const userPrompt = `Write ${slideCount ?? 4} screenshot slide captions for this app:
+App: ${appName}
+Description: ${appDescription ?? ''}
 
-Return ONLY valid JSON:
+Return ONLY valid JSON with no markdown:
 {
   "slides": [
-    {
-      "headline": "max 30 chars, bold benefit statement",
-      "body": "max 60 chars, supporting detail"
-    }
+    { "headline": "max 30 chars, bold benefit", "subtext": "max 60 chars, supporting detail" }
   ]
 }`
 
@@ -31,7 +28,8 @@ Return ONLY valid JSON:
     const result = JSON.parse(cleaned)
     return NextResponse.json(result)
   } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Failed to generate copy'
     console.error('[screenshots/generate-copy]', err)
-    return NextResponse.json({ error: 'Failed to generate copy' }, { status: 500 })
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
 }

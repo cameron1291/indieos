@@ -68,10 +68,11 @@ export default function SettingsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ plan: planId }),
       })
-      const { url } = await res.json()
-      if (url) window.location.href = url
-    } catch {
-      toast.error('Failed to start checkout')
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Checkout failed')
+      if (data.url) window.location.href = data.url
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Failed to start checkout')
     } finally {
       setUpgrading(null)
     }
@@ -81,10 +82,11 @@ export default function SettingsPage() {
     setLoadingPortal(true)
     try {
       const res = await fetch('/api/stripe/portal', { method: 'POST' })
-      const { url } = await res.json()
-      if (url) window.location.href = url
-    } catch {
-      toast.error('Failed to open billing portal')
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Portal error')
+      if (data.url) window.location.href = data.url
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Failed to open billing portal')
     } finally {
       setLoadingPortal(false)
     }

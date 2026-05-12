@@ -23,10 +23,15 @@ export async function POST(request: Request) {
 
   const origin = request.headers.get('origin') ?? 'http://localhost:3000'
 
-  const portalSession = await stripe.billingPortal.sessions.create({
-    customer: profile.stripe_customer_id,
-    return_url: `${origin}/dashboard/settings?tab=billing`,
-  })
-
-  return NextResponse.json({ url: portalSession.url })
+  try {
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: profile.stripe_customer_id,
+      return_url: `${origin}/dashboard/settings?tab=billing`,
+    })
+    return NextResponse.json({ url: portalSession.url })
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Stripe error'
+    console.error('[stripe/portal]', err)
+    return NextResponse.json({ error: msg }, { status: 500 })
+  }
 }
