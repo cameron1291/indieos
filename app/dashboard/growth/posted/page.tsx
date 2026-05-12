@@ -49,7 +49,7 @@ export default function PostedPage() {
       try {
         const jsonUrl = opp.reply_url.replace(/\/?$/, '.json')
         const res = await fetch(`https://www.reddit.com${new URL(opp.reply_url).pathname}.json`, {
-          headers: { 'User-Agent': 'LaunchPad/1.0' }
+          headers: { 'User-Agent': 'IndieOS/1.0' }
         })
         if (res.ok) {
           const data = await res.json()

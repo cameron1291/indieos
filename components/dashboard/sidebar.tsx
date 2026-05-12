@@ -58,7 +58,7 @@ export function Sidebar({ profile, apps, currentAppId }: SidebarProps) {
       {/* Logo */}
       <div className="flex h-16 items-center gap-2 border-b border-zinc-200 px-4 dark:border-zinc-800">
         <Rocket className="h-5 w-5 text-violet-600" />
-        <span className="text-base font-bold tracking-tight">LaunchPad</span>
+        <span className="text-base font-bold tracking-tight">IndieOS</span>
         <span className={cn('ml-auto rounded-full px-2 py-0.5 text-xs font-medium', PLAN_COLOURS[profile.plan])}>
           {profile.plan}
         </span>

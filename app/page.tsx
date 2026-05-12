@@ -71,7 +71,7 @@ export default function LandingPage() {
       <nav className="flex items-center justify-between border-b border-zinc-800 px-6 py-4 max-w-6xl mx-auto">
         <div className="flex items-center gap-2">
           <Rocket className="h-5 w-5 text-violet-400" />
-          <span className="font-bold text-lg tracking-tight">LaunchPad</span>
+          <span className="font-bold text-lg tracking-tight">IndieOS</span>
         </div>
         <div className="flex items-center gap-4">
           <Link href="/login" className="text-sm text-zinc-400 hover:text-white transition-colors">Sign in</Link>
@@ -92,7 +92,7 @@ export default function LandingPage() {
           <span className="bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">faster than you think</span>
         </h1>
         <p className="mt-6 text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-          LaunchPad handles everything from validating your idea to finding your first users — so you can spend more time building and less time on everything else.
+          IndieOS handles everything from validating your idea to finding your first users — so you can spend more time building and less time on everything else.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link href="/signup" className="flex items-center gap-2 rounded-xl bg-violet-600 px-8 py-3.5 text-base font-semibold hover:bg-violet-500 transition-colors">
@@ -108,7 +108,7 @@ export default function LandingPage() {
       <section id="features" className="mx-auto max-w-6xl px-6 py-20">
         <div className="text-center mb-14">
           <h2 className="text-3xl font-bold">Everything in one place</h2>
-          <p className="mt-3 text-zinc-400">Stop juggling 12 different tools. LaunchPad has everything an indie dev needs.</p>
+          <p className="mt-3 text-zinc-400">Stop juggling 12 different tools. IndieOS has everything an indie dev needs.</p>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map(({ icon: Icon, title, desc }) => (
@@ -166,7 +166,7 @@ export default function LandingPage() {
       {/* Footer CTA */}
       <section className="mx-auto max-w-3xl px-6 py-20 text-center">
         <h2 className="text-3xl font-bold">Ready to launch?</h2>
-        <p className="mt-4 text-zinc-400">Join indie developers who use LaunchPad to ship faster and grow smarter.</p>
+        <p className="mt-4 text-zinc-400">Join indie developers who use IndieOS to ship faster and grow smarter.</p>
         <Link href="/signup" className="mt-8 inline-flex items-center gap-2 rounded-xl bg-violet-600 px-8 py-3.5 text-base font-semibold hover:bg-violet-500 transition-colors">
           Get started free <ArrowRight className="h-4 w-4" />
         </Link>
@@ -177,7 +177,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-zinc-500">
           <div className="flex items-center gap-2">
             <Rocket className="h-4 w-4 text-violet-400" />
-            <span>LaunchPad</span>
+            <span>IndieOS</span>
           </div>
           <div className="flex gap-6">
             <Link href="/login" className="hover:text-zinc-300 transition-colors">Sign in</Link>

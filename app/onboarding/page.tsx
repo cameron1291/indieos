@@ -98,7 +98,7 @@ export default function OnboardingPage() {
               <Rocket className="h-8 w-8" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold">Welcome to LaunchPad</h1>
+              <h1 className="text-3xl font-bold">Welcome to IndieOS</h1>
               <p className="mt-3 text-zinc-400">Let&apos;s set up your first app in 2 minutes. You can add more later.</p>
             </div>
             <Button onClick={() => setStep(1)} className="w-full bg-violet-600 hover:bg-violet-500" size="lg">

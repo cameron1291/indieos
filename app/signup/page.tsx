@@ -52,7 +52,7 @@ export default function SignupPage() {
     <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">LaunchPad</CardTitle>
+          <CardTitle className="text-2xl font-bold">IndieOS</CardTitle>
           <CardDescription>Create your free account</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
