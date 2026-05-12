@@ -3,14 +3,26 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { toast } from 'sonner'
-import { createClient } from '@/lib/supabase'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { createClient } from '@/lib/supabase'
 import { Loader2, Upload, Wand2, Download, X, Check, ArrowLeft, ChevronRight, Smartphone } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import type { App } from '@/types/database'
+
+async function uploadViaServer(file: File, appId: string, index: number): Promise<string> {
+  const fd = new FormData()
+  fd.append('file', file)
+  fd.append('appId', appId)
+  fd.append('index', String(index))
+  const res = await fetch('/api/screenshots/upload', { method: 'POST', body: fd })
+  const data = await res.json()
+  if (!res.ok) throw new Error(data.error ?? 'Upload failed')
+  return data.url as string
+}
 
 const TEMPLATES = [
   { id: 'dark',    label: 'Midnight',      from: '#0f0f1a', to: '#1e1040', accent: '#7c3aed', text: '#ffffff' },
@@ -129,16 +141,14 @@ export default function ScreenshotsPage() {
   }, [uploads.length])
 
   async function uploadToStorage(uf: UploadedFile, index: number) {
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-    const ext = uf.file.name.split('.').pop()
-    const path = `screenshots/${user.id}/${appId}/raw/slide-${index + 1}-${Date.now()}.${ext}`
     setUploads(prev => prev.map((u, i) => i === index ? { ...u, uploading: true } : u))
-    const { error } = await supabase.storage.from('app-assets').upload(path, uf.file, { contentType: uf.file.type, upsert: true })
-    if (error) { toast.error(`Upload failed: ${uf.file.name}`); setUploads(prev => prev.map((u, i) => i === index ? { ...u, uploading: false } : u)); return }
-    const { data: { publicUrl } } = supabase.storage.from('app-assets').getPublicUrl(path)
-    setUploads(prev => prev.map((u, i) => i === index ? { ...u, uploading: false, storageUrl: publicUrl } : u))
+    try {
+      const publicUrl = await uploadViaServer(uf.file, appId, index + 1)
+      setUploads(prev => prev.map((u, i) => i === index ? { ...u, uploading: false, storageUrl: publicUrl } : u))
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : `Upload failed: ${uf.file.name}`)
+      setUploads(prev => prev.map((u, i) => i === index ? { ...u, uploading: false } : u))
+    }
   }
 
   function addFiles(files: FileList | File[]) {

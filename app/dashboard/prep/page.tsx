@@ -47,17 +47,17 @@ export default async function PrepPage() {
       {(apps as App[]).map(app => (
         <div key={app.id}>
           <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-4 px-1">{app.name}</h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {TOOLS.map(({ label, icon: Icon, slug, desc, color }) => (
-              <Link key={slug} href={`/dashboard/prep/${slug}/${app.id}`}>
-                <div className="group relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 p-5 transition-all hover:border-zinc-600 hover:bg-zinc-800">
-                  <div className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${color} shadow-lg`}>
-                    <Icon className="h-5 w-5 text-white" />
+              <Link key={slug} href={`/dashboard/prep/${slug}/${app.id}`} className="h-full">
+                <div className="group flex h-full flex-col rounded-2xl border border-zinc-800 bg-zinc-900 p-6 transition-all hover:border-violet-500/50 hover:bg-zinc-800/80">
+                  <div className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${color} shadow-lg shadow-black/30`}>
+                    <Icon className="h-6 w-6 text-white" />
                   </div>
-                  <p className="font-semibold text-zinc-100 text-sm">{label}</p>
-                  <p className="mt-1.5 text-xs text-zinc-500 leading-relaxed">{desc}</p>
-                  <div className="mt-4 text-xs font-medium text-violet-400 group-hover:text-violet-300 transition-colors">
-                    Open →
+                  <p className="font-semibold text-white text-base">{label}</p>
+                  <p className="mt-2 flex-1 text-sm text-zinc-400 leading-relaxed">{desc}</p>
+                  <div className="mt-5 flex items-center gap-1 text-sm font-medium text-violet-400 group-hover:text-violet-300 transition-colors">
+                    Open tool <span className="transition-transform group-hover:translate-x-0.5">→</span>
                   </div>
                 </div>
               </Link>
