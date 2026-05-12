@@ -10,7 +10,8 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Wand2, Copy, RefreshCw, CheckCircle2, Plus } from 'lucide-react'
+import { Loader2, Wand2, Copy, RefreshCw, CheckCircle2, Plus, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import type { App } from '@/types/database'
 
@@ -128,8 +129,8 @@ export default function ListingPage() {
           primary_keyword: primaryKeyword,
         }),
       })
-      if (!res.ok) throw new Error()
       const result = await res.json()
+      if (!res.ok) throw new Error(result.error ?? 'Failed')
       setListing({
         title: result.title ?? '',
         subtitle: result.subtitle ?? '',
@@ -140,8 +141,8 @@ export default function ListingPage() {
         aso_tips: result.aso_tips,
       })
       toast.success('Listing generated')
-    } catch {
-      toast.error('Failed to generate listing')
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Failed to generate listing')
     } finally {
       setGenerating(false)
     }
@@ -156,11 +157,11 @@ export default function ListingPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ description: app.description, target_user: app.target_user, platform }),
       })
-      if (!res.ok) throw new Error()
-      const { keywords: kws } = await res.json()
-      setKeywords(kws ?? [])
-    } catch {
-      toast.error('Failed to generate keywords')
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Failed')
+      setKeywords(data.keywords ?? [])
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Failed to generate keywords')
     } finally {
       setLoadingKw(false)
     }
@@ -188,8 +189,16 @@ export default function ListingPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-6 p-6">
       <div>
+        <Link href="/dashboard/prep" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-900 mb-3">
+          <ArrowLeft className="h-3.5 w-3.5" /> Back to App Store Prep
+        </Link>
         <h1 className="text-2xl font-bold">Listing writer</h1>
         <p className="mt-1 text-sm text-zinc-500">{app.name}</p>
+        <p className="mt-3 text-sm text-zinc-500 leading-relaxed max-w-xl">
+          Fill in your app&apos;s key features and primary keyword below, then click <strong>Generate listing</strong>.
+          The AI will write an optimised title, description, and keywords for your chosen store.
+          You can edit any field and regenerate as many times as you like.
+        </p>
       </div>
 
       {/* Platform + inputs */}

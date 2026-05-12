@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Wand2, Download, Check, RefreshCw } from 'lucide-react'
+import { Loader2, Wand2, Download, Check, RefreshCw, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import type { App } from '@/types/database'
 
@@ -56,12 +57,12 @@ export default function IconPage() {
           color_hint: colorHint || undefined,
         }),
       })
-      if (!res.ok) throw new Error()
-      const { concepts: c } = await res.json()
-      setConcepts(c ?? [])
-      toast.success(`${(c ?? []).length} icon concepts generated`)
-    } catch {
-      toast.error('Generation failed')
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Generation failed')
+      setConcepts(data.concepts ?? [])
+      toast.success(`${(data.concepts ?? []).length} icon concepts generated`)
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Generation failed')
     } finally {
       setGenerating(false)
     }
@@ -78,12 +79,12 @@ export default function IconPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ app_id: appId, image_url: concept.url }),
       })
-      if (!res.ok) throw new Error()
-      const { url } = await res.json()
-      setExportUrl(url)
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Export failed')
+      setExportUrl(data.url)
       toast.success('Export ready!')
-    } catch {
-      toast.error('Export failed')
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Export failed')
     } finally {
       setExporting(false)
     }
@@ -98,8 +99,15 @@ export default function IconPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-6 p-6">
       <div>
+        <Link href="/dashboard/prep" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-900 mb-3">
+          <ArrowLeft className="h-3.5 w-3.5" /> Back to App Store Prep
+        </Link>
         <h1 className="text-2xl font-bold">App icon generator</h1>
         <p className="mt-1 text-sm text-zinc-500">{app.name}</p>
+        <p className="mt-3 text-sm text-zinc-500 leading-relaxed max-w-xl">
+          Enter an optional colour or style hint, then click <strong>Generate icon concepts</strong>.
+          AI will create 4 different concepts — pick your favourite and export all sizes for iOS and Android in one ZIP.
+        </p>
       </div>
 
       <Card>

@@ -36,6 +36,7 @@ Return ONLY valid JSON:
     return NextResponse.json(result)
   } catch (err) {
     console.error('[listing/keywords]', err)
-    return NextResponse.json({ error: 'Failed to generate keywords' }, { status: 500 })
+    const msg = err instanceof Error ? err.message : 'Failed to generate keywords'
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
 }

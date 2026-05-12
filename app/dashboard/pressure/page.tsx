@@ -104,10 +104,11 @@ export default function PressurePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ idea, target_user: targetUser, monetisation, competition }),
       })
-      if (!res.ok) throw new Error()
-      setResult(await res.json())
-    } catch {
-      toast.error('Analysis failed')
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Analysis failed')
+      setResult(data)
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Analysis failed')
     } finally {
       setLoading(false)
     }
@@ -119,7 +120,10 @@ export default function PressurePage() {
     <div className="mx-auto max-w-3xl space-y-6 p-6">
       <div>
         <h1 className="text-2xl font-bold">Idea pressure tester</h1>
-        <p className="mt-1 text-sm text-zinc-500">Brutally honest market analysis before you build.</p>
+        <p className="mt-2 text-sm text-zinc-500 leading-relaxed max-w-xl">
+          Describe your app idea in a sentence or two — the more specific the better. AI will analyse market size,
+          competition, monetisation, and go-to-market, then give you a <strong>BUILD / PIVOT / DON&apos;T BUILD</strong> verdict in seconds.
+        </p>
       </div>
 
       <Card>

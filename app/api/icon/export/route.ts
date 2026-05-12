@@ -72,6 +72,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ url: signedData?.signedUrl })
   } catch (err) {
     console.error('[icon/export]', err)
-    return NextResponse.json({ error: 'Export failed' }, { status: 500 })
+    const msg = err instanceof Error ? err.message : 'Export failed'
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
 }

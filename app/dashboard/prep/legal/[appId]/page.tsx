@@ -9,7 +9,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Wand2, ExternalLink, Copy, RefreshCw } from 'lucide-react'
+import { Loader2, Wand2, ExternalLink, Copy, RefreshCw, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import type { App } from '@/types/database'
 
@@ -71,12 +72,12 @@ export default function LegalPage() {
           website,
         }),
       })
-      if (!res.ok) throw new Error()
-      const { content } = await res.json()
-      setDocs(prev => ({ ...prev, [docType]: content }))
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Failed to generate document')
+      setDocs(prev => ({ ...prev, [docType]: data.content }))
       toast.success(`${DOC_TYPES.find(d => d.id === docType)?.label} generated`)
-    } catch {
-      toast.error('Failed to generate document')
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Failed to generate document')
     } finally {
       setGenerating(null)
     }
@@ -108,8 +109,15 @@ export default function LegalPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-6 p-6">
       <div>
+        <Link href="/dashboard/prep" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-900 mb-3">
+          <ArrowLeft className="h-3.5 w-3.5" /> Back to App Store Prep
+        </Link>
         <h1 className="text-2xl font-bold">Legal documents</h1>
         <p className="mt-1 text-sm text-zinc-500">{app.name}</p>
+        <p className="mt-3 text-sm text-zinc-500 leading-relaxed max-w-xl">
+          Enter your company name and contact email, then generate your Privacy Policy, Terms, and EULA.
+          Each doc gets a public URL you can link to from your App Store listing.
+        </p>
       </div>
 
       {/* Contact info */}

@@ -9,7 +9,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Upload, Wand2, Download, X, Check, ImageIcon } from 'lucide-react'
+import { Loader2, Upload, Wand2, Download, X, Check, ImageIcon, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import type { App } from '@/types/database'
 
@@ -194,8 +195,14 @@ export default function ScreenshotsPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-6 p-6">
       <div>
+        <Link href="/dashboard/prep" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-900 mb-3">
+          <ArrowLeft className="h-3.5 w-3.5" /> Back to App Store Prep
+        </Link>
         <h1 className="text-2xl font-bold">Screenshot generator</h1>
         <p className="mt-1 text-sm text-zinc-500">{app.name}</p>
+        <p className="mt-3 text-sm text-zinc-500 leading-relaxed max-w-xl">
+          Upload a screenshot from your app, pick a background template, add headline copy, and export all device sizes as a ZIP — ready to upload directly to App Store Connect or Google Play.
+        </p>
       </div>
 
       {/* Step indicator */}

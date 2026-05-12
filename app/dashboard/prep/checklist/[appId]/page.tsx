@@ -6,7 +6,8 @@ import { createClient } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Loader2, CheckCircle2, Circle, ChevronDown, ChevronRight, Wand2 } from 'lucide-react'
+import { Loader2, CheckCircle2, Circle, ChevronDown, ChevronRight, Wand2, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import type { App } from '@/types/database'
@@ -179,15 +180,24 @@ export default function ChecklistPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 p-6">
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Submission checklist</h1>
-          <p className="mt-1 text-sm text-zinc-500">{app.name}</p>
+      <div>
+        <Link href="/dashboard/prep" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-900 mb-3">
+          <ArrowLeft className="h-3.5 w-3.5" /> Back to App Store Prep
+        </Link>
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Submission checklist</h1>
+            <p className="mt-1 text-sm text-zinc-500">{app.name}</p>
+            <p className="mt-2 text-sm text-zinc-500 max-w-xl">
+              Tick off each item as you complete it — your progress is saved automatically in the browser.
+              Click <strong>AI reviewer notes</strong> to get app-specific tips for each section.
+            </p>
+          </div>
+          <Button size="sm" variant="outline" onClick={generateAINotes} disabled={generatingNotes}>
+            {generatingNotes ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <Wand2 className="mr-2 h-3.5 w-3.5" />}
+            AI reviewer notes
+          </Button>
         </div>
-        <Button size="sm" variant="outline" onClick={generateAINotes} disabled={generatingNotes}>
-          {generatingNotes ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <Wand2 className="mr-2 h-3.5 w-3.5" />}
-          AI reviewer notes
-        </Button>
       </div>
 
       {/* Progress */}

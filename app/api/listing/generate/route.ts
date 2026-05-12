@@ -54,6 +54,7 @@ Return ONLY valid JSON:
     return NextResponse.json(result)
   } catch (err) {
     console.error('[listing/generate]', err)
-    return NextResponse.json({ error: 'Failed to generate listing' }, { status: 500 })
+    const msg = err instanceof Error ? err.message : 'Failed to generate listing'
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
 }

@@ -72,6 +72,7 @@ Return ONLY valid JSON with this exact structure:
     return NextResponse.json(result)
   } catch (err) {
     console.error('[pressure-test]', err)
-    return NextResponse.json({ error: 'Analysis failed' }, { status: 500 })
+    const msg = err instanceof Error ? err.message : 'Analysis failed'
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
 }
